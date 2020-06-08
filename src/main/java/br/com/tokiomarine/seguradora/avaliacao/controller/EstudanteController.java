@@ -2,6 +2,7 @@ package br.com.tokiomarine.seguradora.avaliacao.controller;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,6 +19,7 @@ import br.com.tokiomarine.seguradora.avaliacao.service.EstudandeService;
 public class EstudanteController {
 
 	// TODO efetue a correção dos problemas que existem na classe Estudante Controller
+	@Autowired
 	EstudandeService service;
 
 	@GetMapping("criar")
@@ -27,7 +29,7 @@ public class EstudanteController {
 
 	@GetMapping("listar")
 	public String listarEstudantes(Model model) {
-		model.addAttribute("estudtes", service.buscarEstudantes());
+		model.addAttribute("estudantes", service.buscarEstudantes());
 		return "index";
 	}
 
@@ -43,7 +45,7 @@ public class EstudanteController {
 	}
 
 	@GetMapping("editar/{id}")
-	public String exibirEdicaoEstudante(long id, Model model) {
+	public String exibirEdicaoEstudante(@PathVariable("id") long id, Model model) {
 		Estudante estudante = service.buscarEstudante(id);
 		model.addAttribute("estudante", estudante);
 		return "atualizar-estudante";
@@ -65,6 +67,7 @@ public class EstudanteController {
 	@GetMapping("apagar/{id}")
 	public String apagarEstudante(@PathVariable("id") long id, Model model) {
 		// TODO IMPLEMENTAR A EXCLUSAO DE ESTUDANTES
+		service.excluirEstudante(id);
 		model.addAttribute("estudantes", service.buscarEstudantes());
 		return "index";
 	}
